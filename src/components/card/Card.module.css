@@ -1,0 +1,80 @@
+.card {
+  display: block;
+  width: 120px;
+  user-select: none;
+  -moz-user-select: none;
+  border-radius: 5px;
+  border: 2px solid var(--border);
+  position: relative;
+  overflow: hidden;
+  cursor: grab;
+  transition: box-shadow 100ms, background-color 500ms, border 200ms;
+}
+
+.card.back {
+  position: relative;
+  background-color: #ffffff;
+}
+
+.card.back:after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 8px;
+  right: 8px;
+  border-radius: 3px;
+  background-color: #193650;
+}
+
+.card.display {
+  background-color: #ffffff;
+  background-image: none;
+}
+
+.card.display:hover {
+  background-color: #c0dbff !important;
+}
+
+.card.flash,
+.card.flashSrc {
+  box-shadow: 0 0 20px #ffac4e;
+  border: 2px solid #ffac4e;
+}
+
+.card.selected {
+  background-color: #c0dbff !important;
+  pointer-events: none;
+}
+
+.cardInner {
+  height: 0;
+  padding-top: 150%;
+}
+
+.content {
+  padding: 0.8em;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.text {
+  display: flex;
+  font-size: 1.4em;
+  font-weight: bold;
+  font-family: "Oleo Script", cursive;
+}
+
+.red {
+  color: red;
+}
+
+@media screen and (max-height: 950px) {
+  .card {
+    width: 92px;
+  }
+}

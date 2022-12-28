@@ -1,38 +1,63 @@
+:root {
+  --border: #000000;
+  --headerBg: #0a141d;
+  --bodyBg: rgb(224, 221, 221);
+}
+
 .App {
   text-align: center;
 }
 
 .App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+  float: left;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  font-family: "Oleo Script", cursive;
+  color: #ffac4e;
+  padding-left: 1em;
+  font-size: 1.5em;
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  height: 40px;
+  width: 1390px;
+  background-color: var(--headerBg);
+  border-bottom: 1px solid var(--border);
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  box-shadow: 10px 1px 5px #424141;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: space-between;
 }
 
-.App-link {
-  color: #61dafb;
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+details summary::-webkit-details-marker {
+  display: none;
+  content: "";
+}
+
+details summary::marker {
+  display: none;
+  content: "";
+}
+
+summary {
+  outline: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.rotated {
+  transform: rotate(180deg);
 }

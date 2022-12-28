@@ -1,0 +1,22 @@
+.ui {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: auto;
+  background-color: var(--bodyBg);
+  width: 1400px;
+  margin: 0 auto;
+}
+
+.game {
+  flex: 1;
+  padding: 1em;
+  display: flex;
+  flex-direction: row;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.cardWrapper {
+  height: 20px;
+}
