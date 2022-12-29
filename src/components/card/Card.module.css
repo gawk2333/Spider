@@ -27,6 +27,10 @@
   background-color: #193650;
 }
 
+.cardWrapper {
+  height: 20px;
+}
+
 .card.display {
   background-color: #ffffff;
   background-image: none;
