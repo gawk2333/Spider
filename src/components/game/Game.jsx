@@ -8,7 +8,9 @@ import { ALL_POINTS, POINTS_MAP } from './constants'
 const SUITS_NUM = 2
 
 export default function Game() {
+  const [allCards, setAllCards] = useState([])
   const [ mode , setMode ] = useState(2)
+  const [cards, setCards] = useState([[], [], [], [], [], [], [], [], [], []]);
 
   const shuffle = (arr) => {
     arr.sort(() => Math.random() - 0.5);
@@ -16,11 +18,11 @@ export default function Game() {
 
   const getInitGameState = useCallback(() => {
     let ALL_SUITS;
-    if (mode === 3) {
+    if (mode === 2) {
       ALL_SUITS = ["♠", "♥", "♣", "♦"];
-    } else if (mode === 2) {
-      ALL_SUITS = ["♠", "♥", "♠", "♥"];
     } else if (mode === 1) {
+      ALL_SUITS = ["♠", "♥", "♠", "♥"];
+    } else if (mode === 0) {
       ALL_SUITS = ["♠", "♠", "♠", "♠"];
     }
   
@@ -56,16 +58,50 @@ export default function Game() {
   },[mode]);
 
   useEffect(()=> {
-    const result = getInitGameState()
-    console.log('result',result)
+    const data = getInitGameState()
+    if(data){
+      setAllCards(data[1])
+      setCards(data[0])
+    }
   },[getInitGameState])
 
   return (
     <div className={ styles.ui }>
       <HeaderBar mode={ mode } setMode={ setMode }/>
       <div className={styles.game}>
-        <Card/>
-      </div>
-    </div>
-  )
+        {cards.map( (col, index) => {
+          return <div className={classnames(styles.column, {
+                  [styles.column12]: col.length >= 12,
+                  [styles.column18]: col.length >= 18,
+                  [styles.column24]: col.length >= 24,
+                  [styles.column30]: col.length >= 30,
+                }
+              )}
+              key={index}
+              >
+                <div className={styles.holderWrapper}>
+                  <div className={styles.holder}>
+                    <div className={styles.holderInner}>
+                    </div>
+                    </div>
+                  </div>
+                      {col.map(({ point, suit, display, index }, rowIndex)=> {
+                        return (
+                          <div className={styles.cardWrapper}>
+                              <Card
+                                cardPoint={point}
+                                cardSuit={suit}
+                                cardDisplay={display}
+                                cardIndex={index}
+                                key={rowIndex}
+                                />
+                            </div>
+                            )
+                      })}
+
+              </div>
+            })}
+          </div>
+        </div>
+      )
 }

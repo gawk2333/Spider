@@ -1,18 +1,35 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import classnames from 'classnames';
 import styles from './Card.module.css'
 
-export default function Card() {
-  const [ display, setDisplay ] = useState(true)
+export default function Card({cardPoint, cardSuit, cardDisplay, cardIndex}) {
+  const [ display, setDisplay ] = useState(false)
   const [suit, setSuit] = useState("♦")
   const [ point, setPoint ] = useState(3)
   const isRed = suit === "♥" || suit === "♦";
 
+  const cProps = {
+    className: classnames(styles.card, {
+      [styles.back]: !display,
+      [styles.display]: display,
+    }),
+    style: {
+      position: "relative",
+    },
+  };
+
+  useEffect(()=> {
+    if(cardPoint && cardSuit && cardDisplay){
+      setDisplay(cardDisplay)
+      setPoint(cardPoint)
+      setSuit(cardSuit)
+    }
+  },[cardPoint, cardSuit, cardDisplay])
+
   return (
-    display && (
-    <div className={styles.cardWrapper}>
-      <div className={styles.card}>
+      <div {...cProps}>
         <div className={styles.cardInner}></div>
+        {display && (
           <div className={styles.content}>
             <div
               className={classnames(styles.text, {
@@ -33,8 +50,7 @@ export default function Card() {
               <div className="spacer"></div>
               <div>{suit}</div>
             </div>
-          </div>
+          </div>)}
       </div>
-    </div>)
-  );
+    )
 }
