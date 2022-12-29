@@ -28,7 +28,7 @@
   border-bottom-right-radius: 5px;
   box-shadow: 10px 1px 5px #424141;
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 }
 
 code {
