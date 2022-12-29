@@ -10,10 +10,11 @@ export default function HeaderBar({ mode, setMode}) {
   return (
     <div className='App-header'>
       <div className='App-logo'>Spider Solitaire</div>
-      <div className='spacer'/>
+      {/* <div className='spacer'/> */}
       <Select 
       className='modeSelector'
-      defaultValue={1}
+      value={mode}
+      onChange={(e)=> setMode(e.value)}
       options={options}/>
     </div>
   )

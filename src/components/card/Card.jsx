@@ -9,6 +9,7 @@ export default function Card() {
   const isRed = suit === "♥" || suit === "♦";
 
   return (
+    display && (
     <div className={styles.cardWrapper}>
       <div className={styles.card}>
         <div className={styles.cardInner}></div>
@@ -34,6 +35,6 @@ export default function Card() {
             </div>
           </div>
       </div>
-    </div>
+    </div>)
   );
 }
