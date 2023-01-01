@@ -28,6 +28,10 @@
   height: 20px;
 }
 
+.cardWrapper.display {
+  height: 50px;
+}
+
 .column12 .cardWrapper.display {
   height: 35px;
 }
@@ -72,3 +76,9 @@
   position: relative;
 }
 
+
+@media screen and (max-height: 950px) {
+  .holder {
+    width: 92px;
+  }
+}
