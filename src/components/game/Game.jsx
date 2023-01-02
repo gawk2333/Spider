@@ -34,7 +34,7 @@ export default function Game () {
    */
   const select = (col, row, display, x, y) => {
     if (!display) return
-    if (selectedCard === null) {
+    if (selectedCard === null && canMoveFrom(col, row)) {
       setSelectedCard({ col, row, pos: { x, y } })
     }
   }
@@ -65,6 +65,23 @@ export default function Game () {
   const handleWindowMouseUp = useCallback(() => {
     setSelectedCard(null)
   }, [])
+
+  const canMoveFrom = (col, row) => {
+    const len = cards[col].length
+    const movedCards = cards[col].slice(row, len)
+    console.log(movedCards)
+    if (movedCards.length <= 0) {
+      return false
+    }
+    let point = movedCards[0].point
+    const suit = movedCards[0].suit
+    for (const c of movedCards) {
+      console.log(c)
+      if (c.point !== point || c.suit !== suit) return false
+      point = getNextPoint(point)
+    }
+    return true
+  }
 
   /**
    * Check if selected card can move to the certain column
