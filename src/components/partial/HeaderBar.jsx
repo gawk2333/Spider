@@ -30,7 +30,7 @@ export default function HeaderBar ({ mode, setMode, score, undo, reset }) {
       <div className='spacer'/>
       <Select
         styles={customStyles}
-        value={mode}
+        defaultValue={options[2]}
         onChange={(e) => setMode(e.value)}
         options={options}/>
       <div className='spacer'></div>
