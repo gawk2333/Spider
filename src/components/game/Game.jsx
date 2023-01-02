@@ -40,7 +40,7 @@ export default function Game() {
   }
 
   /**
-   * 
+   * get the point less than before
    * @param {string} point 
    * @returns {string}
    */
@@ -50,7 +50,7 @@ export default function Game() {
   };
 
   /**
-   * 
+   * get the point greater than before
    * @param {string} point 
    * @returns {string}
    */
@@ -157,6 +157,7 @@ export default function Game() {
       setFinishedCards([...finishedCards, ...destRemovedCards, ...movedCards]);
       setScore(score + 100);
     } else {
+      // move
       historyItem.type = "move";
       cards[dest] = [...cards[dest], ...movedCards];
       setScore(score - 1);
@@ -165,6 +166,16 @@ export default function Game() {
     setCards([...cards]);
     setHistory([...history, historyItem]);
     return true;
+  }
+
+  const undo = () => {
+    if(history.length > 0){
+      console.log(history)
+    }
+  }
+
+  const reset = () => {
+    console.log('reset')
   }
 
   /**
@@ -239,7 +250,12 @@ export default function Game() {
 
   return (
     <div className={ styles.ui }>
-      <HeaderBar mode={ mode } setMode={ setMode }/>
+      <HeaderBar
+       mode={ mode } 
+       setMode={ setMode } 
+       score={ score }
+       reset={ reset }
+       undo={ undo }/>
       <div className={styles.game}>
         {cards.map( (col, colIndex) => {
           return <div className={classnames(styles.column, {

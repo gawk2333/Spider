@@ -1,21 +1,40 @@
 import React from 'react'
+import styles from './HeaderBar.module.css'
 import Select from 'react-select'
 
-export default function HeaderBar({ mode, setMode}) {
+export default function HeaderBar({ mode, setMode, score, undo, reset}) {
   const options = [
     {value:0, label:'Easy'},
     {value:1, label:'Midium'},
     {value:2, label:'Hard'}
   ]
+
+  const customStyles = {
+    menu: (base) => ({
+      ...base,
+      zIndex:100,
+      border:'1px solid black'
+    }),
+    control: (base) => ({
+      ...base,
+      border:'1px solid black'
+    }),
+  }
   return (
-    <div className='App-header'>
-      <div className='App-logo'>Spider Solitaire</div>
-      {/* <div className='spacer'/> */}
+    <div className={styles.header}>
+      <div className={styles.logo}>Spider Solitaire</div>
+      <div className='spacer'/>
+      <span className={styles.btn} onClick={()=>reset()}>Reset</span>
+      <div className='spacer'/>
+      <span className={styles.btn} onClick={()=>undo()}>Undo</span>
+      <div className='spacer'/>
       <Select 
-      className='modeSelector'
-      value={mode}
-      onChange={(e)=> setMode(e.value)}
-      options={options}/>
+        styles={customStyles}
+        value={mode}
+        onChange={(e)=> setMode(e.value)}
+        options={options}/>
+      <div className='spacer'></div>
+      <span className={ styles.score }>Score: {score}</span>
     </div>
   )
 }

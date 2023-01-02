@@ -13,7 +13,6 @@ export default function Card(props) {
   const selected = props.selected || false
 
   useEffect(() => {
-    console.log(selected)
     if (selected) {
       const handleWindowMouseMove = ({ clientX, clientY }) => {
         setCardPosition({

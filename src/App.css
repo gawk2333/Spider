@@ -8,29 +8,6 @@
   text-align: center;
 }
 
-.App-logo {
-  float: left;
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  font-family: "Oleo Script", cursive;
-  color: #ffac4e;
-  padding-left: 1em;
-  font-size: 1.5em;
-}
-
-.App-header {
-  height: 40px;
-  width: 1390px;
-  background-color: var(--headerBg);
-  border-bottom: 1px solid var(--border);
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-  box-shadow: 10px 1px 5px #424141;
-  display: flex;
-  /* justify-content: space-between; */
-}
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
