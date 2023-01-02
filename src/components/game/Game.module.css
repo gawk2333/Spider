@@ -76,6 +76,19 @@
   position: relative;
 }
 
+.horizenWrapper {
+  width: 30px;
+}
+
+.cardStack {
+  display: flex;
+}
+
+.control {
+  display: flex;
+  padding: 1em;
+}
+
 
 @media screen and (max-height: 950px) {
   .holder {

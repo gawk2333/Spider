@@ -8,7 +8,7 @@ import { ALL_POINTS, POINTS_MAP } from './constants'
 const SUITS_NUM = 2
 
 export default function Game () {
-  // const [allCards, setAllCards] = useState([])
+  const [allCards, setAllCards] = useState([])
   const [mode, setMode] = useState(2)
   const [cards, setCards] = useState([[], [], [], [], [], [], [], [], [], []])
   const [selectedCard, setSelectedCard] = useState(null)
@@ -178,6 +178,18 @@ export default function Game () {
     console.log('reset')
   }
 
+  const moreCards = () => {
+    for (let i = 0; i < 10; i++) {
+      const card = allCards.pop()
+      card.display = true
+      cards[i].push(card)
+    }
+    setSelectedCard(null)
+    setAllCards([...allCards])
+    setCards([...cards])
+    setHistory([...history, { type: 'deal' }])
+  }
+
   /**
    *
    * @param {number} col dest column
@@ -243,7 +255,7 @@ export default function Game () {
   useEffect(() => {
     const data = getInitGameState()
     if (data) {
-      // setAllCards(data[1])
+      setAllCards(data[1])
       setCards(data[0])
     }
   }, [getInitGameState])
@@ -304,6 +316,34 @@ export default function Game () {
             })}
           </div>
         })}
+      </div>
+      <div className={styles.control}>
+        <div className={styles.cardStack}>
+          {[...Array(Math.floor(finishedCards.length / 13)).keys()].map(
+            (i) => {
+              console.log('map', i)
+              return (
+                <div className={styles.horizenWrapper} key={i}>
+                  <Card
+                    cardPoint={'K'}
+                    cardSuit={finishedCards[i * 13].suit}
+                    cardDisplay={true}
+                  />
+                </div>
+              )
+            }
+          )}
+        </div>
+        <div className="spacer"></div>
+        <div className={classnames(styles.cardStack, 'rotated')}>
+          {[...Array(Math.floor(allCards.length / 10)).keys()].map((i) => {
+            return (
+              <div className={styles.horizenWrapper} key={i}>
+                <Card cardPoint={'A'} cardSuit={'♠'} onClick={moreCards} />
+              </div>
+            )
+          })}
+        </div>
       </div>
     </div>
   )

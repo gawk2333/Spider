@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import styles from './Card.module.css'
 
 export default function Card (props) {
-  const { cardPoint, cardSuit, cardDisplay, onMouseDown, onMouseUp, onCardMouseUp } = props
+  const { cardPoint, cardSuit, cardDisplay, onMouseDown, onMouseUp, onCardMouseUp, onClick } = props
   const [display, setDisplay] = useState(false)
   const [suit, setSuit] = useState('')
   const [point, setPoint] = useState('')
@@ -65,6 +65,8 @@ export default function Card (props) {
   }
 
   if (onCardMouseUp) cProps.onMouseUp = onCardMouseUp
+
+  if (onClick) cProps.onClick = onClick
 
   return (
     <div
