@@ -243,7 +243,7 @@ export default function Game () {
   useEffect(() => {
     const data = getInitGameState()
     if (data) {
-      setAllCards(data[1])
+      // setAllCards(data[1])
       setCards(data[0])
     }
   }, [getInitGameState])
