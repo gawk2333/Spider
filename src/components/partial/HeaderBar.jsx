@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './HeaderBar.module.css'
 import Select from 'react-select'
 
-export default function HeaderBar ({ mode, setMode, score, undo, reset }) {
+export default function HeaderBar ({ setMode, score, undo, reset }) {
   const options = [
     { value: 0, label: 'Easy' },
     { value: 1, label: 'Midium' },

@@ -4,6 +4,7 @@ import styles from './Game.module.css'
 import Card from '../card'
 import classnames from 'classnames'
 import { ALL_POINTS, POINTS_MAP } from './constants'
+import _ from 'lodash'
 
 const SUITS_NUM = 2
 
@@ -69,14 +70,12 @@ export default function Game () {
   const canMoveFrom = (col, row) => {
     const len = cards[col].length
     const movedCards = cards[col].slice(row, len)
-    console.log(movedCards)
     if (movedCards.length <= 0) {
       return false
     }
     let point = movedCards[0].point
     const suit = movedCards[0].suit
     for (const c of movedCards) {
-      console.log(c)
       if (c.point !== point || c.suit !== suit) return false
       point = getNextPoint(point)
     }
@@ -187,11 +186,28 @@ export default function Game () {
 
   const undo = () => {
     if (history.length > 0) {
-      console.log(history)
+      const last = _.last(history)
+      const { src, dest, num, flip, type } = last
+      const prevCards = _.cloneDeep(cards)
+      if (type === 'move') {
+        if (flip) {
+          prevCards[src][cards[src].length - 1].display = false
+        }
+        forceMove(src, dest, num, prevCards)
+      }
     }
   }
 
-  const reset = () => {
+  const forceMove = (src, dest, num, prevCards) => {
+    const len = prevCards[dest].length
+    const movedCards = prevCards[dest].slice(len - num, len)
+    const remainCard = prevCards[dest].slice(0, len - num)
+    prevCards[src] = [...prevCards[src], ...movedCards]
+    prevCards[dest] = [...remainCard]
+    setCards([...prevCards])
+  }
+
+  const restart = () => {
     console.log('reset')
   }
 
@@ -280,10 +296,9 @@ export default function Game () {
   return (
     <div className={ styles.ui }>
       <HeaderBar
-        mode={ mode }
         setMode={ setMode }
         score={ score }
-        reset={ reset }
+        reset={ restart }
         undo={ undo }/>
       <div className={styles.game}>
         {cards.map((col, colIndex) => {
@@ -338,7 +353,6 @@ export default function Game () {
         <div className={styles.cardStack}>
           {[...Array(Math.floor(finishedCards.length / 13)).keys()].map(
             (i) => {
-              console.log('map', i)
               return (
                 <div className={styles.horizenWrapper} key={i}>
                   <Card

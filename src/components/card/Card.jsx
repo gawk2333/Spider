@@ -4,11 +4,8 @@ import styles from './Card.module.css'
 
 export default function Card (props) {
   const { cardPoint, cardSuit, cardDisplay, onMouseDown, onMouseUp, onCardMouseUp, onClick } = props
-  const [display, setDisplay] = useState(false)
-  const [suit, setSuit] = useState('')
-  const [point, setPoint] = useState('')
   const [cardPosition, setCardPosition] = useState({ x: 0, y: 0 })
-  const isRed = suit === '♥' || suit === '♦'
+  const isRed = cardSuit === '♥' || cardSuit === '♦'
   const selected = props.selected || false
 
   useEffect(() => {
@@ -35,8 +32,8 @@ export default function Card (props) {
 
   const cProps = useMemo(() => ({
     className: classnames(styles.card, {
-      [styles.back]: !display,
-      [styles.display]: display,
+      [styles.back]: !cardDisplay,
+      [styles.display]: cardDisplay,
       [styles.selected]: selected
     }),
     style: {
@@ -45,15 +42,7 @@ export default function Card (props) {
       cursor: selected ? '-webkit-grabbing' : '-webkit-grab',
       zIndex: selected ? 100 : 1
     }
-  }), [cardPosition.x, cardPosition.y, display, selected])
-
-  useEffect(() => {
-    if (cardPoint && cardSuit && cardDisplay) {
-      setDisplay(cardDisplay)
-      setPoint(cardPoint)
-      setSuit(cardSuit)
-    }
-  }, [cardPoint, cardSuit, cardDisplay])
+  }), [cardPosition.x, cardPosition.y, cardDisplay, selected])
 
   if (onMouseDown) {
     cProps.onMouseDown = (e) => {
@@ -73,16 +62,16 @@ export default function Card (props) {
       {...cProps}
     >
       <div className={styles.cardInner}></div>
-      {display && (
+      {cardDisplay && (
         <div className={styles.content}>
           <div
             className={classnames(styles.text, {
               [styles.red]: isRed
             })}
           >
-            <div>{point}</div>
+            <div>{cardPoint}</div>
             <div className="spacer"></div>
-            <div>{suit}</div>
+            <div>{cardSuit}</div>
           </div>
           <div className="spacer" />
           <div
@@ -90,9 +79,9 @@ export default function Card (props) {
               [styles.red]: isRed
             })}
           >
-            <div>{point}</div>
+            <div>{cardPoint}</div>
             <div className="spacer"></div>
-            <div>{suit}</div>
+            <div>{cardSuit}</div>
           </div>
         </div>)}
     </div>
