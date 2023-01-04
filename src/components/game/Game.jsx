@@ -186,15 +186,37 @@ export default function Game () {
 
   const undo = () => {
     if (history.length > 0) {
+      const modifiedHistory = _.cloneDeep(history)
+      const prevCards = _.cloneDeep(cards)
       const last = _.last(history)
       const { src, dest, num, flip, type } = last
-      const prevCards = _.cloneDeep(cards)
       if (type === 'move') {
         if (flip) {
           prevCards[src][cards[src].length - 1].display = false
         }
         forceMove(src, dest, num, prevCards)
       }
+      if (type === 'merge') {
+        const mergedCards = finishedCards.slice(finishedCards.length - 13, finishedCards.length)
+        if (last.mergeWithFlip) {
+          prevCards[dest][prevCards[dest].length - 1].display = false
+        }
+        prevCards[dest] = [...prevCards[dest], ...mergedCards.slice(0, mergedCards.length - 1 - num)]
+        prevCards[src] = [...prevCards[src], ...mergedCards.slice(mergedCards.length - num, mergedCards.length)]
+        setCards([...prevCards])
+        setFinishedCards(finishedCards.slice(0, finishedCards.length - 13))
+      }
+      if (type === 'deal') {
+        const dealedCards = []
+        prevCards.map((col) => {
+          const lastCard = col.pop()
+          dealedCards.push(lastCard)
+        })
+        setCards([...prevCards])
+        setAllCards([...allCards, ...dealedCards])
+      }
+      modifiedHistory.pop()
+      setHistory(modifiedHistory)
     }
   }
 
