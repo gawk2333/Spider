@@ -230,7 +230,11 @@ export default function Game () {
   }
 
   const restart = () => {
-    console.log('reset')
+    const data = getInitGameState()
+    if (data) {
+      setAllCards(data[1])
+      setCards(data[0])
+    }
   }
 
   const moreCards = () => {
@@ -320,7 +324,7 @@ export default function Game () {
       <HeaderBar
         setMode={ setMode }
         score={ score }
-        reset={ restart }
+        restart={ restart }
         undo={ undo }/>
       <div className={styles.game}>
         {cards.map((col, colIndex) => {
