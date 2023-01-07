@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './HeaderBar.module.css'
 import Select from 'react-select'
 
-export default function HeaderBar ({ setMode, score, undo, restart }) {
+export default function HeaderBar ({ setMode, score, undo, restart, hint }) {
   const options = [
     { value: 0, label: 'Easy' },
     { value: 1, label: 'Midium' },
@@ -27,6 +27,8 @@ export default function HeaderBar ({ setMode, score, undo, restart }) {
       <span className={styles.btn} onClick={() => restart()}>Restart</span>
       <div className='spacer'/>
       <span className={styles.btn} onClick={() => undo()}>Undo</span>
+      <div className='spacer'/>
+      <span className={styles.btn} onClick={() => hint()}>Hint</span>
       <div className='spacer'/>
       <Select
         styles={customStyles}

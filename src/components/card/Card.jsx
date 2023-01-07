@@ -7,6 +7,15 @@ export default function Card (props) {
   const [cardPosition, setCardPosition] = useState({ x: 0, y: 0 })
   const isRed = cardSuit === '♥' || cardSuit === '♦'
   const selected = props.selected || false
+  const flash = props.flash || false
+  const flashSrc = props.flashSrc || false
+
+  useEffect(() => {
+    if (flash || flashSrc) {
+      console.log('flash', flash)
+      console.log('src', flashSrc)
+    }
+  }, [props])
 
   useEffect(() => {
     if (selected) {
@@ -34,7 +43,9 @@ export default function Card (props) {
     className: classnames(styles.card, {
       [styles.back]: !cardDisplay,
       [styles.display]: cardDisplay,
-      [styles.selected]: selected
+      [styles.selected]: selected,
+      [styles.flash]: flash,
+      [styles.flashSrc]: flashSrc
     }),
     style: {
       position: 'relative',
@@ -42,7 +53,7 @@ export default function Card (props) {
       cursor: selected ? '-webkit-grabbing' : '-webkit-grab',
       zIndex: selected ? 100 : 1
     }
-  }), [cardPosition.x, cardPosition.y, cardDisplay, selected])
+  }), [cardPosition.x, cardPosition.y, cardDisplay, selected, flash, flashSrc])
 
   if (onMouseDown) {
     cProps.onMouseDown = (e) => {

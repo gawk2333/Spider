@@ -29,3 +29,7 @@ export const POINTS_MAP = {
   Q: 11,
   K: 12
 }
+
+export const pointLess = (p1, p2) => {
+  return POINTS_MAP[p1] < POINTS_MAP[p2]
+}

@@ -3,7 +3,7 @@ import { HeaderBar } from '../partial'
 import styles from './Game.module.css'
 import Card from '../card'
 import classnames from 'classnames'
-import { ALL_POINTS, POINTS_MAP } from './constants'
+import { ALL_POINTS, POINTS_MAP, pointLess } from './constants'
 import _ from 'lodash'
 
 const SUITS_NUM = 2
@@ -16,6 +16,10 @@ export default function Game () {
   const [finishedCards, setFinishedCards] = useState([])
   const [score, setScore] = useState(500)
   const [history, setHistory] = useState([])
+  const [hints, setHints] = useState([])
+  const [hintIndex, setHintIndex] = useState(0)
+  const [hintSrc, setHintSrc] = useState(null)
+  const [hintDest, setHintDest] = useState(null)
 
   /**
   * shuffle an array
@@ -237,6 +241,74 @@ export default function Game () {
     }
   }
 
+  const generateHints = () => {
+    const hintsT = []
+    for (let i = 0; i < 10; i++) {
+      if (cards[i].length === 0) {
+        console.log('empty column')
+      } else {
+        const card = cards[i][cards[i].length - 1]
+        for (let j = 0; j < 10; j++) {
+          if (i === j || cards[j].length === 0) continue
+          let row = cards[j].length - 1
+          let { suit, point } = cards[j][row]
+          while (
+            row >= 0 &&
+            cards[j][row].display &&
+            suit === cards[j][row].suit &&
+            point === cards[j][row].point &&
+            pointLess(point, card.point)
+          ) {
+            point = getPrevPoint(point)
+            row--
+          }
+          if (row + 1 >= cards[j].length) continue
+          if (cards[j][row + 1].point === getNextPoint(card.point)) {
+            const hintsItem = {
+              src: j,
+              srcRow: row + 1,
+              dest: i,
+              priority: 2
+            }
+            if (
+              row >= 0 &&
+              cards[j][row].display &&
+              cards[j][row].point === getPrevPoint(cards[j][row + 1].point)
+            ) {
+              hintsItem.priority = 1
+            }
+            if (cards[j][row + 1].suit === card.suit) {
+              hintsItem.priority += 1
+            }
+            hintsT.push(hintsItem)
+          }
+        }
+      }
+    }
+    hintsT.sort((a, b) => {
+      if (a.priority > b.priority) {
+        return -1
+      } else if (a.priority < b.priority) {
+        return 1
+      } else {
+        return 0
+      }
+    })
+    return hintsT
+  }
+
+  const hint = () => {
+    if (hints.length) {
+      console.log(hints)
+      setHintSrc({
+        col: hints[hintIndex].src,
+        row: hints[hintIndex].srcRow
+      })
+      setHintDest(hints[hintIndex].dest)
+      setHintIndex((hintIndex + 1) % hints.length)
+    }
+  }
+
   const moreCards = () => {
     for (let i = 0; i < 10; i++) {
       const card = allCards.pop()
@@ -319,12 +391,17 @@ export default function Game () {
     }
   }, [getInitGameState])
 
+  useEffect(() => {
+    setHints(generateHints())
+  }, [cards])
+
   return (
     <div className={ styles.ui }>
       <HeaderBar
         setMode={ setMode }
         score={ score }
         restart={ restart }
+        hint={ hint }
         undo={ undo }/>
       <div className={styles.game}>
         {cards.map((col, colIndex) => {
@@ -362,6 +439,15 @@ export default function Game () {
                                   colIndex === selectedCard.col
                         ? selectedCard.pos
                         : false
+                    }
+                    flash={
+                      hintDest === colIndex &&
+                      rowIndex === col.length - 1
+                    }
+                    flashSrc={
+                      hintSrc &&
+                      hintSrc.col === colIndex &&
+                      hintSrc.row <= rowIndex
                     }
                     onMouseDown={(x, y) => {
                       select(colIndex, rowIndex, display, x, y)
