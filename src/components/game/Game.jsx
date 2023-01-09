@@ -238,6 +238,10 @@ export default function Game () {
     if (data) {
       setAllCards(data[1])
       setCards(data[0])
+      setScore(500)
+      setHintDest(null)
+      setHintSrc(null)
+      setHintIndex(0)
     }
   }
 
@@ -387,6 +391,10 @@ export default function Game () {
     if (data) {
       setAllCards(data[1])
       setCards(data[0])
+      setScore(500)
+      setHintDest(null)
+      setHintSrc(null)
+      setHintIndex(0)
     }
   }, [getInitGameState])
 
