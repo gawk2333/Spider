@@ -184,9 +184,6 @@ export default function Game () {
     }
     cards[src] = remainCards
     setCards([...cards])
-    setHintDest(null)
-    setHintSrc(null)
-    setHintIndex(0)
     setHistory([...history, historyItem])
     return true
   }
@@ -395,6 +392,9 @@ export default function Game () {
 
   useEffect(() => {
     setHints(generateHints())
+    setHintDest(null)
+    setHintSrc(null)
+    setHintIndex(0)
   }, [cards])
 
   return (
