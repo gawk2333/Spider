@@ -11,13 +11,6 @@ export default function Card (props) {
   const flashSrc = props.flashSrc || false
 
   useEffect(() => {
-    if (flash || flashSrc) {
-      console.log('flash', flash)
-      console.log('src', flashSrc)
-    }
-  }, [props])
-
-  useEffect(() => {
     if (selected) {
       const handleWindowMouseMove = ({ clientX, clientY }) => {
         setCardPosition({
